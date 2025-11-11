@@ -85,16 +85,24 @@
         <p class="text-muted mb-4">Jelajahi berbagai pilihan properti berkualitas dengan fasilitas modern</p>
         <!-- Filter/Sort Options -->
         <div class="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-          <button class="btn btn-outline-primary active">
+          <button class="btn btn-outline-primary" 
+                  [class.active]="isFilterActive('all')"
+                  (click)="filterByType('all')">
             <i class="bi bi-grid-3x3-gap me-2"></i>Semua
           </button>
-          <button class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary"
+                  [class.active]="isFilterActive('rumah')"
+                  (click)="filterByType('rumah')">
             <i class="bi bi-house me-2"></i>Rumah
           </button>
-          <button class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary"
+                  [class.active]="isFilterActive('apartemen')"
+                  (click)="filterByType('apartemen')">
             <i class="bi bi-building me-2"></i>Apartemen
           </button>
-          <button class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary"
+                  [class.active]="isFilterActive('villa')"
+                  (click)="filterByType('villa')">
             <i class="bi bi-tree me-2"></i>Villa
           </button>
         </div>
@@ -103,20 +111,24 @@
 
     <!-- Housing Cards Grid -->
     <div class="row g-4 mb-4">
-      <div class="col-md-6 col-lg-4">
-        <app-lokasi-perumahan></app-lokasi-perumahan>
+      <div class="col-md-6 col-lg-4" *ngFor="let house of filteredList">
+        <app-lokasi-perumahan [housing]="house"></app-lokasi-perumahan>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <app-lokasi-perumahan></app-lokasi-perumahan>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <app-lokasi-perumahan></app-lokasi-perumahan>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="row" *ngIf="filteredList.length === 0">
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-search fs-1 text-muted mb-3 d-block"></i>
+        <h5 class="text-muted">Tidak ada properti ditemukan</h5>
+        <p class="text-muted">Coba filter lainnya untuk melihat properti yang tersedia</p>
       </div>
     </div>
 
     <!-- Load More Button -->
-    <div class="row">
+    <div class="row" *ngIf="filteredList.length > 0">
       <div class="col-12 text-center">
+        <p class="text-muted mb-3">Menampilkan {{ filteredList.length }} dari {{ housingList.length }} properti</p>
         <button class="btn btn-primary btn-lg">
           <i class="bi bi-arrow-down-circle me-2"></i>Lihat Lebih Banyak
         </button>
