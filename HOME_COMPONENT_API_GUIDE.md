@@ -4,7 +4,7 @@ Dokumen ini menjelaskan langkah-langkah mendesain halaman Home untuk aplikasi **
 
 ---
 
-## � Daftar Isi
+## Daftar Isi
 
 1. [Backend API Integration](#1-backend-api-integration)
 2. [Pagination Implementation](#2-pagination-implementation)
@@ -14,7 +14,7 @@ Dokumen ini menjelaskan langkah-langkah mendesain halaman Home untuk aplikasi **
 
 ---
 
-## �🚀 Implementasi Pengembangan Lanjutan
+## 🚀 Implementasi Pengembangan Lanjutan
 
 ### 1. Backend API Integration
 
