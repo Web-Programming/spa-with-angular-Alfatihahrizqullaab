@@ -1,5 +1,5 @@
 <!-- Hero Section -->
-<section class="hero-secion bg-primary text-white py-5">
+<section class="hero-section bg-primary text-white py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0"> 
@@ -103,6 +103,13 @@
                         (click)="filterByType('rumah')"
                     >
                         <i class="bi bi-house me-2"></i>Rumah
+                    </button>
+                    <button 
+                        class="btn btn-outline-primary"
+                        [class.active]="isFilterActive('villa')"
+                        (click)="filterByType('villa')"
+                    >
+                        <i class="bi bi-houses me-2"></i>Villa
                     </button>
                     <button 
                         class="btn btn-outline-primary"
