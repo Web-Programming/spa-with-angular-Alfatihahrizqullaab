@@ -26,6 +26,7 @@ export class Detail implements OnInit{
       // Ambil ID dari route parameter
       this.route.params.subscribe(params => {
         this.propertyId = +params['id']; // + untuk convert string ke number
+        this.loadPropertyDetail();
       });
   }
 

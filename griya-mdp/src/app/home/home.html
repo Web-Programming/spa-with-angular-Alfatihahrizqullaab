@@ -88,6 +88,35 @@
                 <h2 class="fw-bold mb-3">Pilihan Hunian Terbaik</h2>
                 <p class="text-muted mb-4">Jelajahi berbagai pilihan properti berkualitas</p>
 
+                <!-- Search Bar -->
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-8">
+                        <div class="input-group input-group-lg shadow-sm">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input 
+                                type="text"
+                                class="form-control border-start-0 ps-0"
+                                placeholder="Cari berdasarkan nama, lokasi atay deskripsi..."
+                                [(ngModel)="searchQuery"]
+                                (input)="searchHousing()"
+                                [disabled]="isLoading"
+                                >
+                            <button class="btn btn-outline-secondary"
+                                type="button"
+                                *ngIf="searchQuery"
+                                (click)="clearSerach()"
+                                [disabled]="isLoading">
+                            <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted" *ngIf="searchQuery && filteredList.length > 0">
+                            Ditemukan {{ filteredList.length }} Properti
+                        </small>
+                    </div>
+                </div>
+
                 <!-- Filter Buttons -->
                 <div class="d-flex justify-content-center  gap-3 mb-4 flex-wrap">
                     <button 
@@ -122,25 +151,50 @@
             </div>
         </div>
 
+        <!-- Error/Info Message -->
+        <div class="alert alert-info alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+            <i class="bi bi-info-circle me-2"></i>{{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+        </div>
+
+        
        
 
         <!-- Housing Cards Grid -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4"  *ngFor="let house of filteredList">
+        <div class="row g-4 mb-4" *ngIf="!isLoading">
+            <div class="col-md-6 col-lg-4"  *ngFor="let house of paginatedList">
                 <app-lokasi-perumahan [housing]='house' ></app-lokasi-perumahan>
             </div>
 
+            <!-- Loading Spinner -->
+            <div class="row" *ngIf="isLoading">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-3">Memuat data properti...</p>
+                </div>
+            </div>
+
             <!-- Implementasi selanjutnya : menampilkan lokasi-perumahan dari list -->
-              <!-- No Results -->
-              
-            <div class="row" >
-                <div class="col-12 text-center py-5" *ngIf="filteredList.length === 0">
+            <!-- No Results -->  
+            <div class="row" *ngIf="filteredList.length === 0 && !isLoading">
+                <div class="col-12 text-center py-5" >
                     <i class="bi bi-search fs-1 text-muted mb-3 d-block"></i>
                     <h5 class="text-muted"> Tidak ada properti ditemukan</h5>
                     <!-- <p class="text-muted">{{filteredList.length === 0 ? "Coba filter lainnya untuk melihat properti yang tersedia": ""}}</p> -->
                     <!-- Results Counter -->
-                    <p>Menampilkan {{ filteredList.length }} dari {{ housingList.length }} properti</p>
-
+                    <!-- Sebelum ada backend  -->
+                    <!-- <p>Menampilkan {{ filteredList.length }} dari {{ housingList.length }} properti</p> -->
+                    <p class="text-muted" *ngIf="searchQuery">
+                        Tidak ada hasil untuk "<strong>{{ searchQuery }}</strong>". Coba kata kunci
+                    </p>
+                    <p class="text-muted" *ngIf="!searchQuery">
+                        Coba filter lainnya untuk melihat properti yang tersedia
+                    </p>
+                    <button class="btn btn-primary" (click)="clearSerach()" *ngIf="searchQuery">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Riset Pencarian
+                    </button>
                 </div>
             </div>
         </div>
@@ -151,6 +205,67 @@
                 <button class="btn btn-primary btn-lg">
                     <i class="bi bi-arrow-down-circle me-2"></i>Lihat Lebih Banyak
                 </button>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="filteredList.length > 0 && !isLoading">
+            <div class="col-12">
+                <!-- Pagination info -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted mb-0">
+                        Menampilkan {{ startIndex }} - {{ endIndex }} dari {{ filteredList.length }} properti
+                    </p>
+                    <p class="text-muted mb-0">
+                        Halaman {{ currentPage }} dari {{ totalPages }}
+                    </p>
+                </div>
+
+                <!-- Pagination Controls -->
+                <!-- *ngIf="totalPages > 1" - Hanya tampil jika lebih dari 1 halaman
+                [class.disabled] - Disabled state untuk first/last page
+                [class.active] - Highlight halaman aktif
+                [hidden] - Smart display (hanya tampilkan current ± 1)
+                Ellipsis (...) - Untuk banyak halaman -->
+                <nav aria-label="Property pagination" *ngIf="totalPages > 1" >
+                    <ul class="pagination justify-content-center">
+                        <!-- Previous Button -->
+                        <li class="page-item" [class.disabled]="currentPage === 1">
+                            <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">
+                                <i class="bi bi-chevron-left"></i> Previos
+                            </button>
+                        </li>
+
+                        <!-- First Page -->
+                        <li class="page-item disabled" *ngIf="currentPage > 3">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Page Numbers ( current and adjecent ) -->
+                        <li class="page-item"
+                            *ngFor="let page of totalPagesArray"
+                            [class.active]="currentPage === page"
+                            [hidden]="page < currentPage - 1 || page > currentPage + 1">
+                            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+                        </li>
+
+                        <!-- Elipsis -->
+                        <li class="page-item" *ngIf="currentPage < totalPages - 2">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Last Page -->
+                        <li class="page-item" *ngIf="currentPage < totalPages - 1">
+                            <button class="page-link" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+                        </li>
+
+                        <!-- Next Button -->
+                        <li class="page-item" [class.disabled]="currentPage === totalPages">
+                            <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                                Next <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
