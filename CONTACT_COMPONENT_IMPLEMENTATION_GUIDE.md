@@ -1,7 +1,7 @@
-# Panduan Implementasi Contact Component dengan Bootstrap 5
+# Panduan Implementasi Contact Component
 
 ## Deskripsi
-Dokumen ini menjelaskan langkah-langkah implementasi component Contact menggunakan Bootstrap 5 di aplikasi Angular Griya MDP. Component ini menampilkan form kontak yang responsif dan user-friendly dengan validasi form, informasi kontak perusahaan, dan desain modern.
+Dokumen ini menjelaskan langkah-langkah implementasi component Contact di aplikasi Angular Griya MDP. Component ini menampilkan form kontak yang responsif dan user-friendly dengan validasi form, informasi kontak perusahaan, dan desain modern.
 
 ---
 
