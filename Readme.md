@@ -3,32 +3,6 @@
 ## Deskripsi Project
 **Griya MDP** adalah aplikasi Single Page Application (SPA) berbasis Angular untuk platform properti (real estate). Aplikasi ini menyediakan fitur pencarian, detail properti, kontak, registrasi, dan login dengan desain modern menggunakan Bootstrap 5.
 
----
-
-## Struktur Project
-
-```
-griya-mdp/
-├── src/
-│   ├── app/
-│   │   ├── home/                  # Home component (list properti)
-│   │   ├── contact/               # Contact component (form kontak)
-│   │   ├── detail/                # Detail component (halaman detail property)
-│   │   ├── profile/               # Profile component (profil perusahaan)
-│   │   ├── register/              # Register component (registrasi user)
-│   │   ├── login/                 # Login component (autentikasi)
-│   │   ├── lokasi-perumahan/      # Lokasi perumahan component
-│   │   ├── app.routes.ts          # Route configuration
-│   │   ├── app.component.ts       # Root component
-│   │   └── app.component.html     # Navigation navbar
-│   └── index.html                 # Entry point HTML (Bootstrap CDN)
-├── REGISTER_COMPONENT_GUIDE.md    # Dokumentasi Register
-├── LOGIN_COMPONENT_GUIDE.md       # Dokumentasi Login
-└── README.md                      # Dokumentasi utama
-```
-
----
-
 ## Instalasi dan Setup
 
 ### 1. Prerequisites
@@ -89,8 +63,9 @@ Akses aplikasi di: `http://localhost:4200`
 
 **Waktu estimasi:** 10 menit
 
+---
 
-### 🔐 **3. Implementasi Contact Component**
+### 📧 **3. Implementasi Contact Component**
 
 **Tujuan:** Membuat halaman kontak dengan form untuk menghubungi perusahaan.
 
@@ -99,24 +74,12 @@ Akses aplikasi di: `http://localhost:4200`
 **Waktu estimasi:** 10 menit
 
 ---
-## **TUGAS MANDIRI**
+# **TUGAS MANDIRI**
 
-### 📧 **Implementasi Contact Component**
-
-**Tujuan:** Membuat halaman kontak dengan form untuk menghubungi perusahaan.
+## 📧 **Implementasi Contact Component**
 
 **Fitur:**
-- Form dengan multiple fields:
-  - Nama Lengkap (text, required, minLength)
-  - Email (email, required, email format)
-  - Nomor Telepon (tel, required, pattern)
-  - Subjek (select dropdown, required)
-  - Pesan (textarea, required, minLength)
-- Newsletter checkbox
-- Contact info cards (Alamat, Telepon, Email)
-- Office hours alert
 - Validasi real-time dengan error messages
-- Reset & Submit buttons
 
 **Note:**
 Component Contact saat ini menggunakan template-driven approach (tanpa Reactive Forms). Anda perlu **mengubahnya** menjadi Reactive Forms sesuai instruksi berikut
