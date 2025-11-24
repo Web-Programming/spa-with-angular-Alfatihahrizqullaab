@@ -314,10 +314,6 @@ File: `src/app/login/login.html`
 - `[disabled]="loginForm.invalid"` - Button disabled jika form tidak valid
 - Text: "Login" (simple & clear)
 
-**Perbedaan dengan Register:**
-- Register: Icon `bi-person-plus-fill` (tambah user)
-- Login: Icon `bi-box-arrow-in-right` (masuk)
-- Konsisten dalam UX pattern
 
 ### 4.7 Divider untuk Social Login
 
