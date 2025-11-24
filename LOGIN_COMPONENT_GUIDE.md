@@ -293,13 +293,6 @@ File: `src/app/login/login.html`
   - `small` class untuk ukuran text lebih kecil
 - Kedua fitur ini adalah standard UX untuk login form
 
-**Remember Me Implementation (Future):**
-```typescript
-// Jika remember me checked:
-localStorage.setItem('token', jwtToken); // Persistent
-// Jika tidak checked:
-sessionStorage.setItem('token', jwtToken); // Session only
-```
 
 ### 4.6 Submit Button
 
