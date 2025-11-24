@@ -746,9 +746,6 @@ app.use((req, res, next) => {
   - [x] Clear search button
   - [x] Results counter
   - [x] Integration dengan filter & pagination
-- [ ] Implementasi favorite functionality
-- [ ] Detail page untuk setiap properti
-
 ---
 
 ## 📚 Referensi
