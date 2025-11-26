@@ -1,35 +1,33 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Housing } from '../lokasi-perumahan/housing.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { Housing } from '../lokasi-perumahan/housing-model';
 import { HOUSING_DATA } from '../data/housing-data';
 
 @Component({
   selector: 'app-detail',
   imports: [CommonModule, RouterLink],
   templateUrl: './detail.html',
-  styleUrl: './detail.css'
+  styleUrl: './detail.css',
 })
-export class Detail implements OnInit {
+export class Detail implements OnInit{
   housing: Housing | null = null;
   isLoading: boolean = true;
   errorMessage: string = '';
   propertyId: number = 0;
 
-  // Data lokal - menggunakan data dari file terpisah yang sama dengan Home Component
   private housingData: Housing[] = HOUSING_DATA;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ){}
 
   ngOnInit(): void {
-    // Ambil ID dari route parameter
-    this.route.params.subscribe(params => {
-      this.propertyId = +params['id']; // + untuk convert string ke number
-      this.loadPropertyDetail();
-    });
+      // Ambil ID dari route parameter
+      this.route.params.subscribe(params => {
+        this.propertyId = +params['id']; // + untuk convert string ke number
+        this.loadPropertyDetail();
+      });
   }
 
   loadPropertyDetail(): void {
@@ -78,8 +76,7 @@ export class Detail implements OnInit {
       default:
         return 'bg-secondary';
     }
-  }
-
+  }  
   // Get type badge class
   getTypeClass(type: string): string {
     switch(type?.toLowerCase()) {
@@ -94,3 +91,4 @@ export class Detail implements OnInit {
     }
   }
 }
+

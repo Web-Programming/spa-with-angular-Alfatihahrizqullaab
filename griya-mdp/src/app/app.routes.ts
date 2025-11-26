@@ -1,43 +1,42 @@
-import { Routes } from '@angular/router';
-import { Home as HomeComponent } from './home/home';
-import { Profile } from './profile/profile';
-import { Login } from './login/login';
-import { Register } from './register/register';
-import { Contact } from './contact/contact';
-import { Detail } from './detail/detail';
+    import { Routes } from '@angular/router';
+    import { Home as HomeComponent } from './home/home';
+    import { Profile as ProfileComponent } from './profile/profile';
+    import { Login as LoginComponent} from './login/login';
+    import { Contact as ContactComponent } from './contact/contact';
+    import { Register as RegisterComponent } from './register/register';
+    import { Detail } from './detail/detail';
 
-export const routes: Routes = [
-    //mengatuh halaman utama aplikasi
-    {
-        path : "",
-        component : HomeComponent,
-        title : 'Home Page'
-    },
-    {
-        path : "profile",
-        component : Profile,
-        //title : 'Profile Page'
-    },
-    {
-        path : "login",
-        component : Login,
-    },
-    {
-        path : "register",
-        component : Register,
-    },
-    {
-        path : "contact",
-        component : Contact,
-    },
-     {
-        path: "property/:id",
-        component: Detail,
-        title: 'Detail Property - Griya MDP'
-    },
-    {
-        path: "**",
-        redirectTo: "",
-        pathMatch: 'full'
-    }
+    export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'Home',
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
+  },
+  {
+    path: 'property/:id',
+    component: Detail,
+    title: 'Detail Property',
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full',
+  },
 ];
+

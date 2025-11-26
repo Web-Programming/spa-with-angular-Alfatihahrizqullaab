@@ -25,6 +25,7 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ]
           },
@@ -90,6 +91,6 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": "1602c012-e95e-48de-8edb-f358612b73fd"
   }
 }
