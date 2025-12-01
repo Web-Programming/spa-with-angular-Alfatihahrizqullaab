@@ -5,6 +5,7 @@
     import { Contact as ContactComponent } from './contact/contact';
     import { Register as RegisterComponent } from './register/register';
     import { Detail } from './detail/detail';
+    import { authGuard } from './guards/auth.guard';
 
     export const routes: Routes = [
   {
@@ -15,6 +16,7 @@
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'login',

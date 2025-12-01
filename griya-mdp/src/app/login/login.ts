@@ -5,7 +5,9 @@ import { CommonModule } from '@angular/common';
 // - `Validators` - Built-in validators Angular (required, email, minLength)
 // - `FormBuilder` - Service untuk membuat form dengan syntax yang lebih ringkas
 import { FormGroup, ReactiveFormsModule, ValidationErrors, FormBuilder, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router'; // tambah router untuk navigasi ke home page setelah berhasil
+import { AuthService } from '../services/auth.service'; // service untuk API Calss dan localStorage managemnt
+
 
 
 @Component({
@@ -16,8 +18,12 @@ import { RouterLink } from '@angular/router';
 })
 export class Login {
   loginForm: FormGroup;
+  showPassword = false;
+  isLoading = false;
+  successMessage = '';
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     // Form initialization
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -27,13 +33,45 @@ export class Login {
 
   submitLogin(): void{
     if(this.loginForm.valid){
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+
       const formData = this.loginForm.value;
-      console.log('Login Submitted', formData);
+
+      // Kirim data ke backend API melalui AuthService
+      this.authService.login(formData).subscribe({
+        next: (response) => {
+          console.log('Login succesfull', response);
+          this.successMessage = response.message || 'Login berhasil';
+
+          // Simpan user data ke localStroge
+          if(response.data){
+            this.authService.saveUserData(response.data);
+          }
+
+          // Redirect ke home page setelah 1 detik
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 1000);
+        },
+        error: (error) => {
+            console.error('Login failed', error);
+            this.isLoading = false;
+            this.errorMessage = error.error?.message || 'Email atau password salah';
+            
+            // Auto hide error message after 5 seconds
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 5000);
+        }
+      })
 
       // TODO: Kirim data ke backend API untuk autentikasi
       // this.authService.login(formData).subscribe(...)
     }else{
-      console.log('Form is not valid')
+      console.log('Form is not valid');
+      this.errorMessage = 'Mohon lengkapi semua field dengan benar';
     }
   }
 }   

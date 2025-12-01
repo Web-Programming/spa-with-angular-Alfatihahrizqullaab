@@ -1,5 +1,5 @@
 <!-- Login Section -->
-<section class="login-section py-5">
+<section class="login-section py-5" >
     <div class="container">
         <div class="row">
             <div class="col-lg-5 mx-auto">
@@ -12,6 +12,18 @@
                 <!-- Login Form Card -->
                 <div class="card shadow-lg border-0">
                     <div class="card-body p-4 p-md-5">
+                        <!-- Succes message -->
+                        <div *ngIf="successMessage" class="alert alert-succes alert-dismissible fade show">
+                            <i class="bi bi-check-circle-fill me-2"></i>{{ successMessage }}
+                            <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
+                        </div>
+
+                        <!-- Error message -->
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMessage }}
+                            <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+                        </div>
+
                         <!-- Form akan berada disinin -->
                         <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
                             <!-- Form fields Email -->
@@ -24,7 +36,7 @@
                                     class="form-control form-control-lg" 
                                     id="email" 
                                     formControlName="email"
-                                    [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                                    [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
                                     placeholder="nama@example.com"
                                     required>
                                 <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
@@ -45,13 +57,20 @@
                                 <label for="password" class="form-label fw-semibold">
                                     <i class="bi bi-lock-fill me-2"></i>Password
                                 </label>
-                                <input type="text"
-                                    class="form-control form-control-lg"
-                                    id="password"
-                                    formControlName="password"
-                                    [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-                                    placeholder="Masukkan password Anda"
-                                    required>
+                                <div class="input-group">
+                                    <input type="text"
+                                        [type]="showPassword ? 'text' : 'password'"
+                                        class="form-control form-control-lg"
+                                        id="password"
+                                        formControlName="password"
+                                        [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                                        placeholder="Masukkan password Anda"
+                                        required>
+                                    <button class="btn btn-outline-secondary" type="button" (click)="showPassword = !showPassword">
+                                        <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                                    </button>
+                                </div>
+                                
                                 <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
                                     <div *ngIf="loginForm.get('password')?.errors?.['required']">
                                         Password harus diisi
@@ -80,8 +99,9 @@
                                 <button
                                     type="submit"
                                     class="btn btn-primary btn-lg py"
-                                    [disabled]="loginForm.invalid">
-                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                    [disabled]="loginForm.invalid || isLoading">
+                                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <i *ngIf="!isLoading" class="bi bi-box-arrow-in-right me-2"></i>{{ isLoading? 'Memproses...': 'Login'}}
                                 </button>
                             </div>
 
